@@ -1,0 +1,47 @@
+[
+{
+    "model": "core.teammember",
+    "pk": 1,
+    "fields": {
+        "name": "Марко Риччи",
+        "position": "Шеф-повар",
+        "bio": "Родился в Риме, обучался в кулинарной школе ALMA. Специализируется на римской и тосканской кухне. Более 15 лет опыта в лучших ресторанах Италии.",
+        "image": "team/chef-marco.jpg",
+        "order": 1,
+        "is_active": true,
+        "instagram": "https://instagram.com/chef_marco_ricci",
+        "facebook": "https://facebook.com/chefmarco",
+        "linkedin": "https://linkedin.com/in/marcoricci"
+    }
+},
+{
+    "model": "core.teammember",
+    "pk": 2,
+    "fields": {
+        "name": "Анна Вольская",
+        "position": "Главный сомелье",
+        "bio": "Сертифицированный сомелье с 10-летним опытом. Специалист по итальянским винам. Победитель российского чемпионата сомелье 2022.",
+        "image": "team/sommelier-anna.jpg",
+        "order": 2,
+        "is_active": true,
+        "instagram": "https://instagram.com/sommelier_anna",
+        "facebook": "https://facebook.com/annasommelier",
+        "linkedin": "https://linkedin.com/in/annavolskaya"
+    }
+},
+{
+    "model": "core.teammember",
+    "pk": 3,
+    "fields": {
+        "name": "Алексей Петров",
+        "position": "Управляющий",
+        "bio": "Опыт в ресторанном бизнесе более 12 лет. Создает незабываемый опыт для каждого гостя. Выпускник РЭУ им. Плеханова.",
+        "image": "team/manager-alex.jpg",
+        "order": 3,
+        "is_active": true,
+        "instagram": "https://instagram.com/manager_alex",
+        "facebook": "https://facebook.com/alexpetrovmanager",
+        "linkedin": "https://linkedin.com/in/alexeypetrov"
+    }
+}
+]
