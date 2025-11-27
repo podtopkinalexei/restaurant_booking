@@ -1,0 +1,52 @@
+[
+{
+    "model": "core.menucategory",
+    "pk": 1,
+    "fields": {
+        "name": "Антипасти",
+        "description": "Традиционные итальянские закуски для начала трапезы",
+        "order": 1,
+        "is_active": true
+    }
+},
+{
+    "model": "core.menucategory",
+    "pk": 2,
+    "fields": {
+        "name": "Паста",
+        "description": "Свежая паста ручной работы с различными соусами",
+        "order": 2,
+        "is_active": true
+    }
+},
+{
+    "model": "core.menucategory",
+    "pk": 3,
+    "fields": {
+        "name": "Пицца",
+        "description": "Тонкое тесто и только натуральные ингредиенты",
+        "order": 3,
+        "is_active": true
+    }
+},
+{
+    "model": "core.menucategory",
+    "pk": 4,
+    "fields": {
+        "name": "Основные блюда",
+        "description": "Мясные и рыбные блюда по традиционным рецептам",
+        "order": 4,
+        "is_active": true
+    }
+},
+{
+    "model": "core.menucategory",
+    "pk": 5,
+    "fields": {
+        "name": "Десерты",
+        "description": "Сладкие завершения вашей трапезы",
+        "order": 5,
+        "is_active": true
+    }
+}
+]

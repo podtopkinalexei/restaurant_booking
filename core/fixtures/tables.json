@@ -1,0 +1,90 @@
+[
+{
+  "model": "core.table",
+  "pk": 1,
+  "fields": {
+    "number": "A1",
+    "capacity": 2,
+    "table_type": "window",
+    "is_available": true,
+    "description": "Уютный столик у окна с видом на улицу"
+  }
+},
+{
+  "model": "core.table",
+  "pk": 2,
+  "fields": {
+    "number": "A2",
+    "capacity": 2,
+    "table_type": "standard",
+    "is_available": true,
+    "description": "Стандартный столик для двоих"
+  }
+},
+{
+  "model": "core.table",
+  "pk": 3,
+  "fields": {
+    "number": "A3",
+    "capacity": 4,
+    "table_type": "standard",
+    "is_available": true,
+    "description": "Столик для компании до 4 человек"
+  }
+},
+{
+  "model": "core.table",
+  "pk": 4,
+  "fields": {
+    "number": "A4",
+    "capacity": 4,
+    "table_type": "booth",
+    "is_available": true,
+    "description": "Уютная бутылочная зона для компании"
+  }
+},
+{
+  "model": "core.table",
+  "pk": 5,
+  "fields": {
+    "number": "B1",
+    "capacity": 6,
+    "table_type": "standard",
+    "is_available": true,
+    "description": "Большой стол для компании до 6 человек"
+  }
+},
+{
+  "model": "core.table",
+  "pk": 6,
+  "fields": {
+    "number": "B2",
+    "capacity": 6,
+    "table_type": "booth",
+    "is_available": true,
+    "description": "Просторная бутылочная зона для большой компании"
+  }
+},
+{
+  "model": "core.table",
+  "pk": 7,
+  "fields": {
+    "number": "V1",
+    "capacity": 8,
+    "table_type": "vip",
+    "is_available": true,
+    "description": "VIP-зона с отдельным обслуживанием"
+  }
+},
+{
+  "model": "core.table",
+  "pk": 8,
+  "fields": {
+    "number": "V2",
+    "capacity": 4,
+    "table_type": "vip",
+    "is_available": true,
+    "description": "VIP-столик с лучшим видом"
+  }
+}
+]

@@ -1,0 +1,259 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}О ресторане - La Bella Italia{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/about.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+<section class="about-hero">
+    <div class="container">
+        <h1>Наша история</h1>
+        <p class="lead">Более 15 лет мы создаем незабываемые гастрономические впечатления</p>
+    </div>
+</section>
+
+<section class="mission-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="mission-card">
+                    <h2 class="mb-4">Наша миссия</h2>
+                    <p class="lead mb-4">
+                        Мы стремимся привнести подлинный вкус Италии в сердце Москвы, 
+                        создавая атмосферу тепла, гостеприимства и кулинарного совершенства.
+                    </p>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <i class="bi bi-star-fill display-4 d-block mb-3"></i>
+                            <h5>Качество</h5>
+                            <p>Только свежие продукты и традиционные рецепты</p>
+                        </div>
+                        <div class="col-md-4">
+                            <i class="bi bi-heart-fill text-danger display-4 d-block mb-3"></i>
+                            <h5>Страсть</h5>
+                            <p>Любовь к итальянской кухне в каждом блюде</p>
+                        </div>
+                        <div class="col-md-4">
+                            <i class="bi bi-people-fill display-4 d-block mb-3"></i>
+                            <h5>Гостеприимство</h5>
+                            <p>Каждый гость - часть нашей большой семьи</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2 class="section-title">Наш путь</h2>
+                <p class="lead">От маленькой траттории до одного из лучших итальянских ресторанов Москвы</p>
+            </div>
+        </div>
+        <div class="timeline">
+            
+            <div class="timeline-item">
+                <div class="timeline-year">2008</div>
+                <div class="timeline-content">
+                    <h4>Открытие первой траттории</h4>
+                    <p>Скромное начало в центре Москвы с 10 столиками и страстью к итальянской кухне. Наше меню включало всего 15 блюд, но каждое готовилось с любовью.</p>
+                </div>
+            </div>            
+            
+            <div class="timeline-item">
+                <div class="timeline-year">2012</div>
+                <div class="timeline-content">
+                    <h4>Расширение и признание</h4>
+                    <p>Получили первую награду "Лучший итальянский ресторан Москвы". Расширили зал до 50 посадочных мест и обновили меню с акцентом на региональные specialties.</p>
+                </div>
+            </div>            
+            
+            <div class="timeline-item">
+                <div class="timeline-year">2015</div>
+                <div class="timeline-content">
+                    <h4>Новое здание и концепция</h4>
+                    <p>Переехали в историческое здание на Тверской. Создали уникальную атмосферу, сочетающую современный комфорт и итальянский шарм. Запустили программу импорта вин напрямую из Италии.</p>
+                </div>
+            </div>            
+            
+            <div class="timeline-item">
+                <div class="timeline-year">2020</div>
+                <div class="timeline-content">
+                    <h4>Инновации и адаптация</h4>
+                    <p>Внедрили систему онлайн-бронирования и доставки. Сохранили качество и атмосферу, адаптировавшись к новым вызовам. Получили звезду Michelin.</p>
+                </div>
+            </div>            
+            
+            <div class="timeline-item">
+                <div class="timeline-year">2024</div>
+                <div class="timeline-content">
+                    <h4>Современный La Bella Italia</h4>
+                    <p>Более 100 посадочных мест, команда из 30 профессионалов, меню с акцентом на sustainable продукты. Продолжаем радовать гостей уже 15 лет!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="stats-section">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3 col-6">
+                <div class="stat-item">
+                    <span class="stat-number" data-target="15">0</span>
+                    <span class="stat-label">Лет на рынке</span>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-item">
+                    <span class="stat-number" data-target="50000">0</span>
+                    <span class="stat-label">Довольных гостей</span>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-item">
+                    <span class="stat-number" data-target="150">0</span>
+                    <span class="stat-label">Блюд в меню</span>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-item">
+                    <span class="stat-number" data-target="12">0</span>
+                    <span class="stat-label">Наград</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2 class="section-title">Наши ценности</h2>
+            </div>
+        </div>
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+                <h4>Качество</h4>
+                <p>Используем только сертифицированные продукты из Италии. Каждое блюдо проходит строгий контроль качества.</p>
+            </div>
+                        
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="bi bi-people"></i>
+                </div>
+                <h4>Команда</h4>
+                <p>Наши повара проходят стажировку в Италии. Инвестируем в постоянное обучение и развитие сотрудников.</p>
+            </div>
+            
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="bi bi-heart"></i>
+                </div>
+                <h4>Традиции</h4>
+                <p>Сохраняем аутентичные рецепты, передаваемые из поколения в поколение в итальянских семьях.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Секция команды -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2 class="section-title">Наша команда</h2>
+                <p class="lead">Профессионалы, влюбленные в итальянскую кухню</p>
+            </div>
+        </div>
+        <div class="row g-4">
+            {% for member in team_members %}
+            <div class="col-md-4">
+                <div class="card team-card">
+                    {% if member.image %}
+                        <img src="{{ member.image.url }}" class="card-img-top team-img" alt="{{ member.name }}">
+                    {% else %}
+                        <img src="{% static 'images/team-placeholder.png' %}" class="card-img-top team-img" alt="{{ member.name }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ member.name }}</h5>
+                        <p class="text-muted">{{ member.position }}</p>
+                        <p class="card-text">{{ member.bio }}</p>
+                        <div class="team-social">
+                            {% if member.instagram %}
+                            <a href="{{ member.instagram }}"><i class="bi bi-instagram"></i></a>
+                            {% endif %}
+                            {% if member.facebook %}
+                            <a href="{{ member.facebook }}"><i class="bi bi-facebook"></i></a>
+                            {% endif %}
+                            {% if member.linkedin %}
+                            <a href="{{ member.linkedin }}"><i class="bi bi-linkedin"></i></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p>Информация о команде скоро появится</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Секция наград -->
+<section class="py-5 awards-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2 class="section-title">Награды и признание</h2>
+            </div>
+        </div>
+        <div class="row g-4">
+            {% for award in awards %}
+            <div class="col-md-4">
+                <div class="award-card">
+                    <div class="award-year">{{ award.year }}</div>
+                    <h4>{{ award.title }}</h4>
+                    <p>{{ award.description }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+    
+<section class="py-5 bg-dark text-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h3>Забронируйте столик онлайн</h3>
+                <p class="mb-0">Убедитесь, что ваш вечер пройдет идеально - забронируйте столик заранее</p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <a href="{% url 'reservations:reservation_create' %}" class="btn btn-gold btn-lg">
+                    <i class="bi bi-calendar-check"></i> Забронировать сейчас
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+    
+    
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/about.js' %}"></script>
+{% endblock %}

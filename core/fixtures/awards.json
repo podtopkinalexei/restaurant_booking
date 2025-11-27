@@ -1,0 +1,68 @@
+[
+{
+    "model": "core.award",
+    "pk": 1,
+    "fields": {
+        "year": "2023",
+        "title": "Звезда Michelin",
+        "description": "За выдающееся качество кухни и сервиса",
+        "order": 1,
+        "is_active": true
+    }
+},
+{
+    "model": "core.award",
+    "pk": 2,
+    "fields": {
+        "year": "2022",
+        "title": "Лучший итальянский ресторан",
+        "description": "Премия 'Ресторанный Олимп'",
+        "order": 2,
+        "is_active": true
+    }
+},
+{
+    "model": "core.award",
+    "pk": 3,
+    "fields": {
+        "year": "2021",
+        "title": "Винная карта года",
+        "description": "Награда от Wine Spectator",
+        "order": 3,
+        "is_active": true
+    }
+},
+{
+    "model": "core.award",
+    "pk": 4,
+    "fields": {
+        "year": "2020",
+        "title": "Шеф-повар года",
+        "description": "Марко Риччи - Gambero Rosso",
+        "order": 4,
+        "is_active": true
+    }
+},
+{
+    "model": "core.award",
+    "pk": 5,
+    "fields": {
+        "year": "2019",
+        "title": "Эко-ресторан",
+        "description": "За устойчивое развитие и экологичность",
+        "order": 5,
+        "is_active": true
+    }
+},
+{
+    "model": "core.award",
+    "pk": 6,
+    "fields": {
+        "year": "2018",
+        "title": "Выбор гостей",
+        "description": "Лучший сервис по версии TripAdvisor",
+        "order": 6,
+        "is_active": true
+    }
+}
+]

@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Добавить отзыв - La Bella Italia{% endblock %}
+
+{% block content %}
+<div class="container mt-5 pt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header bg-gold text-white">
+                    <h3 class="mb-0">
+                        <i class="bi bi-chat-square-text"></i>
+                        {% if existing_review %}Редактировать отзыв{% else %}Оставить отзыв{% endif %}
+                    </h3>
+                </div>
+                <div class="card-body">
+                    {% if existing_review %}
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle"></i>
+                        Вы уже оставляли отзыв. Вы можете отредактировать его ниже.
+                    </div>
+                    {% endif %}
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <!-- Поле рейтинга с звездами -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">{{ form.rating.label }} *</label>
+                            <div class="rating-stars mb-3">
+                                {% for choice in form.rating %}
+                                <div class="form-check form-check-inline me-3">
+                                    {{ choice.tag }}
+                                    <label class="form-check-label star-rating-label" for="{{ choice.id_for_label }}">
+                                        <span class="stars">{{ choice.choice_label }}</span>
+                                    </label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% if form.rating.errors %}
+                            <div class="text-danger">
+                                {{ form.rating.errors }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Поле комментария -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">{{ form.comment.label }} *</label>
+                            {{ form.comment }}
+                            {% if form.comment.errors %}
+                            <div class="text-danger">
+                                {{ form.comment.errors }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{% url 'core:reviews' %}" class="btn btn-outline-secondary me-md-2">
+                                <i class="bi bi-arrow-left"></i> Назад к отзывам
+                            </a>
+                            <button type="submit" class="btn btn-gold">
+                                <i class="bi bi-send"></i>
+                                {% if existing_review %}Обновить отзыв{% else %}Отправить отзыв{% endif %}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.rating-stars .form-check-input {
+    display: none;
+}
+
+.rating-stars .form-check-label {
+    cursor: pointer;
+    padding: 12px 16px;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    font-size: 1.5rem;
+    min-width: 80px;
+    text-align: center;
+}
+
+.rating-stars .form-check-input:checked + .form-check-label {
+    background-color: #fff3cd;
+    border-color: #ffc107;
+    transform: scale(1.05);
+}
+
+.rating-stars .form-check-label:hover {
+    background-color: #f8f9fa;
+    border-color: #ffc107;
+}
+
+.star-rating-label .stars {
+    display: block;
+    line-height: 1;
+}
+</style>
+{% endblock %}

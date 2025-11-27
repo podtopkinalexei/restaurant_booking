@@ -1,0 +1,229 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Бронирование столика - La Bella Italia{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/reservation.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+<section class="reservation-hero">
+    <div class="container">
+        <h1>Забронировать столик</h1>
+        <p class="lead">Выберите удобное время и насладитесь атмосферой Италии</p>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                
+                {% if not user.is_authenticated %}
+                <!-- Блок неавторизованного пользователя -->
+                {% else %}    
+                    
+                <div class="reservation-form-container">
+                    <!-- ЕДИНАЯ ФОРМА для всего процесса -->
+                    <form method="post" id="reservation-form">
+                        {% csrf_token %}
+                        
+                        <!-- Основные параметры -->
+                        <div class="form-section mb-5">
+                            <h3 class="mb-4"><i class="bi bi-calendar-event me-2"></i>Основные параметры</h3>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Дата посещения *</label>
+                                    <input type="date" name="date" class="form-control" 
+                                           value="{{ form_data.date|default:tomorrow|date:'Y-m-d' }}" 
+                                           min="{% now 'Y-m-d' %}">
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Время *</label>
+                                    <select name="time" class="form-select">
+                                        <option value="">Выберите время</option>
+                                        {% for slot in time_slots %}
+                                        <option value="{{ slot }}" {% if form_data.time == slot %}selected{% endif %}>{{ slot }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Количество гостей *</label>
+                                    <select name="guests" class="form-select">
+                                        {% for i in "123456789101112" %}
+                                        <option value="{{ forloop.counter }}" {% if form_data.guests == forloop.counter|stringformat:"i" %}selected{% endif %}>{{ forloop.counter }} человек</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Продолжительность</label>
+                                    <select name="duration" class="form-select">
+                                        <option value="1" {% if form_data.duration == "1" %}selected{% endif %}>1 час</option>
+                                        <option value="2" {% if form_data.duration == "2" or not form_data.duration %}selected{% endif %}>2 часа (стандартно)</option>
+                                        <option value="3" {% if form_data.duration == "3" %}selected{% endif %}>3 часа</option>
+                                        <option value="4" {% if form_data.duration == "4" %}selected{% endif %}>4 часа</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="col-12 mb-4">
+                                    <label class="form-label">Особые пожелания</label>
+                                    <textarea name="special_requests" class="form-control" rows="3" 
+                                              placeholder="Укажите дополнительные пожелания...">{{ form_data.special_requests|default:'' }}</textarea>
+                                </div>
+                            </div>
+                            
+                            <div class="text-end">
+                                <button type="submit" name="check_availability" class="btn btn-gold">
+                                    Проверить доступность
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Блок с доступными столиками -->
+                        {% if available_tables is not None %}
+                        <div class="form-section mb-5">
+                            <h3 class="mb-4"><i class="bi bi-table me-2"></i>Выберите столик</h3>
+                            
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle"></i>
+                                {% if available_tables %}
+                                    Доступно {{ available_tables|length }} столиков на {{ form_data.date }} в {{ form_data.time }} для {{ form_data.guests }} гостей
+                                {% else %}
+                                    На {{ form_data.date }} в {{ form_data.time }} для {{ form_data.guests }} гостей нет доступных столиков
+                                {% endif %}
+                            </div>
+                            
+                            {% if available_tables %}
+                            <!-- Скрытое поле для выбранного столика -->
+                            <input type="hidden" name="table" id="selected-table" value="" required>
+                            
+                            <div class="tables-grid mb-4">
+                                {% for table in available_tables %}
+                                <div class="table-card" data-table-id="{{ table.id }}">
+                                    <div class="table-card-label w-100">
+                                        <div class="table-header d-flex justify-content-between align-items-center">
+                                            <div class="table-number">Столик {{ table.number }}</div>
+                                            <div class="table-type badge bg-secondary">{{ table.get_table_type_display }}</div>
+                                        </div>
+                                        <div class="table-capacity">
+                                            <i class="bi bi-people-fill me-1"></i>
+                                            До {{ table.capacity }} гостей
+                                        </div>
+                                        {% if table.description %}
+                                        <div class="table-description small text-muted mt-2">
+                                            {{ table.description }}
+                                        </div>
+                                        {% endif %}
+                                        <div class="table-status status-available mt-2">
+                                            <i class="bi bi-check-circle me-1"></i> Доступен
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            
+                            <div class="text-end mt-4">
+                                <button type="submit" name="create_reservation" class="btn btn-gold btn-lg" id="book-button">
+                                    <i class="bi bi-check-circle me-2"></i> Забронировать столик
+                                </button>
+                            </div>
+                            {% else %}
+                            <div class="text-center">
+                                <a href="?" class="btn btn-outline-primary">Изменить параметры бронирования</a>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </form>
+                    
+                    <!-- Контактная информация -->
+                    <div class="form-section mt-5">
+                        <h5><i class="bi bi-person me-2"></i>Контактная информация</h5>
+                        <div class="bg-light p-3 rounded mb-3">
+                            <p class="mb-1"><strong>Имя:</strong> {{ user.get_full_name|default:user.username }}</p>
+                            <p class="mb-1"><strong>Email:</strong> {{ user.email }}</p>
+                            <p class="mb-0"><strong>Телефон:</strong> {{ user.phone|default:"Не указан" }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                {% endif %}
+                
+                <div class="mt-4 text-center">
+                    <small class="text-muted">
+                        <i class="bi bi-info-circle me-1"></i>
+                        Бронирование подтверждается автоматически. 
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2 class="section-title">Частые вопросы</h2>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="accordion" id="reservationFAQ">
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                Можно ли отменить бронирование?
+                            </button>
+                        </h3>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#reservationFAQ">
+                            <div class="accordion-body">
+                                Да, вы можете отменить бронирование в любое время через личный кабинет 
+                                или связавшись с нами по телефону.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                Что делать, если я опоздаю?
+                            </button>
+                        </h3>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#reservationFAQ">
+                            <div class="accordion-body">
+                                Мы храним столик в течение 15 минут после забронированного времени. 
+                                При опоздании более чем на 15 минут бронирование может быть аннулировано.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                Можно ли изменить количество гостей?
+                            </button>
+                        </h3>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#reservationFAQ">
+                            <div class="accordion-body">
+                                Да, вы можете изменить количество гостей через личный кабинет 
+                                или позвонив нам за 2 часа до визита.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/reservation.js' %}"></script>
+{% endblock %}

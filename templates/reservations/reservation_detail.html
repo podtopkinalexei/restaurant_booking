@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Бронирование #{{ reservation.id }} - La Bella Italia{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">Бронирование #{{ reservation.id }}</h1>
+            
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Информация о бронировании</h5>
+                            <p><strong>Дата:</strong> {{ reservation.date }}</p>
+                            <p><strong>Время:</strong> {{ reservation.time }}</p>
+                            <p><strong>Продолжительность:</strong> {{ reservation.duration }} часа</p>
+                            <p><strong>Количество гостей:</strong> {{ reservation.guests }}</p>
+                            <p><strong>Статус:</strong> 
+                                <span class="badge 
+                                    {% if reservation.status == 'confirmed' %}bg-success
+                                    {% elif reservation.status == 'pending' %}bg-warning
+                                    {% elif reservation.status == 'cancelled' %}bg-danger
+                                    {% else %}bg-secondary{% endif %}">
+                                    {{ reservation.get_status_display }}
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Информация о столике</h5>
+                            <p><strong>Номер столика:</strong> {{ reservation.table.number }}</p>
+                            <p><strong>Тип:</strong> {{ reservation.table.get_table_type_display }}</p>
+                            <p><strong>Вместимость:</strong> {{ reservation.table.capacity }} персон</p>
+                            
+                            {% if reservation.special_requests %}
+                            <h5 class="mt-4">Особые пожелания</h5>
+                            <p>{{ reservation.special_requests }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <a href="{% url 'reservations:reservation_list' %}" class="btn btn-secondary">Назад к списку</a>
+                        {% if reservation.can_be_cancelled %}
+                        <a href="{% url 'reservations:reservation_cancel' reservation.pk %}" class="btn btn-danger">Отменить бронирование</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
