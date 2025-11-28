@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Бронирование успешно - La Bella Italia{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card text-center">
+                <div class="card-header bg-success text-white">
+                    <h2 class="mb-0"><i class="bi bi-check-circle-fill"></i> Бронирование успешно создано!</h2>
+                </div>
+                <div class="card-body py-5">
+                    <div class="mb-4">
+                        <i class="bi bi-calendar-check" style="font-size: 4rem; color: #28a745;"></i>
+                    </div>
+                    <h3 class="card-title">Спасибо за ваше бронирование!</h3>
+                    <p class="card-text lead">
+                        Мы отправили подтверждение на вашу электронную почту.<br>
+                        В случае изменений вы можете управлять бронированием в личном кабинете.
+                    </p>
+                    
+                    <div class="alert alert-info mt-4">
+                        <h5>Что дальше?</h5>
+                        <ul class="list-unstyled">
+                            <li><i class="bi bi-envelope-check"></i> Проверьте вашу почту для получения подтверждения</li>
+                            <li><i class="bi bi-clock"></i> Приходите за 10-15 минут до назначенного времени</li>
+                            <li><i class="bi bi-telephone"></i> Свяжитесь с нами, если у вас есть вопросы</li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-4">
+                        <a href="{% url 'reservations:reservation_list' %}" class="btn btn-primary btn-lg me-3">
+                            <i class="bi bi-list-ul"></i> Мои бронирования
+                        </a>
+                        <a href="{% url 'core:home' %}" class="btn btn-outline-secondary btn-lg">
+                            <i class="bi bi-house"></i> На главную
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

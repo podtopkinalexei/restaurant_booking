@@ -1,0 +1,191 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}La Bella Italia - Итальянский ресторан{% endblock %}</title>    
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon" sizes="16x16 32x32">
+    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+    
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>  
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'core:home' %}">
+                <i class="bi bi-cup-hot-fill"></i>
+                La Bella Italia
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'core:home' %}">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'core:about' %}">О ресторане</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'core:menu' %}">Меню</a>  
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'reservations:reservation_create' %}">Забронировать столик</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'core:reviews' %}">Отзывы</a>
+                    </li>    
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'reservations:reservation_list' %}">Мои бронирования</a>                        
+                    </li>
+                    {% endif %}
+                </ul>
+                
+                <ul class="navbar-nav">
+                    {% if user.is_authenticated %}
+                        {% if user.is_staff or user.is_manager %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-gear-fill"></i> Управление
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'reservations:reservation_management' %}">Все бронирования</a></li>                                
+                                {% if user.is_staff %}
+                                <li><a class="dropdown-item" href="/admin/">Админ панель</a></li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                        {% endif %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle"></i> {{ user.username }}
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'users:profile' %}">Профиль</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form method="post" action="{% url 'users:logout' %}" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="dropdown-item">Выйти</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'users:login' %}">Войти</a>                            
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'users:register' %}">Регистрация</a>                            
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    {% if messages %}
+    <div class="container mt-3">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>  
+    
+    <footer class="bg-dark text-light mt-5">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-md-3">
+                    <h5>La Bella Italia</h5>
+                    <p>Аутентичный итальянский ресторан с атмосферой тепла и уюта.</p>
+                    <div class="social-links">
+                        <a href="#" class="text-light me-3"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-light me-3"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-light me-3"><i class="bi bi-telegram"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h5>Контакты</h5>
+                    <p>
+                        <i class="bi bi-geo-alt"></i> г. Казань, ул. Петербургская, д. 1<br>
+                        <i class="bi bi-phone"></i> +7 (843) 123-45-67<br>
+                        <i class="bi bi-envelope"></i> info@labellaitalia.ru
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <h5>Часы работы</h5>
+                    <p>
+                        Пн-Чт: 11:00 - 23:00<br>
+                        Пт-Сб: 11:00 - 00:00<br>
+                        Вс: 11:00 - 22:00
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <h5>Обратная связь</h5>
+                    {% if user.is_authenticated %}
+                        <form method="post" action="{% url 'core:feedback' %}">
+                            {% csrf_token %}
+                            <div class="mb-2">
+                                <input type="text" name="name" class="form-control form-control-sm" 
+                                       value="{{ user.get_full_name|default:user.username }}" 
+                                       placeholder="Ваше имя" required>
+                            </div>
+                            <div class="mb-2">
+                                <input type="email" class="form-control form-control-sm" 
+                                       value="{{ user.email }}" readonly>
+                                <small class="text-muted">Email из вашего профиля</small>
+                            </div>
+                            <div class="mb-2">
+                                <textarea name="message" class="form-control form-control-sm" rows="2" 
+                                          placeholder="Ваше сообщение" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-outline-light btn-sm w-100">
+                                <i class="bi bi-send"></i> Отправить
+                            </button>
+                        </form>
+                    {% else %}
+                        <p class="text-light small">
+                            <a href="{% url 'users:login' %}" class="text-warning">Войдите</a> или 
+                            <a href="{% url 'users:register' %}" class="text-warning">зарегистрируйтесь</a>, 
+                            чтобы оставить обратную связь.
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center">
+                <p>&copy; 2025 La Bella Italia. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script src="{% static 'js/main.js' %}"></script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,130 @@
+[
+{
+    "model": "core.menuitem",
+    "pk": 1,
+    "fields": {
+        "category": 1,
+        "name": "Брускетта с помидорами и базиликом",
+        "description": "Хрустящий хлеб с свежими томатами, базиликом и оливковым маслом",
+        "price": "450.00",
+        "image": "menu_items/bruschetta.jpg",
+        "is_available": true,
+        "is_popular": true,
+        "order": 1,
+        "ingredients": "Хлеб чиабатта, помидоры черри, свежий базилик, чеснок, оливковое масло",
+        "cooking_time": 10
+    }
+},
+{
+    "model": "core.menuitem",
+    "pk": 2,
+    "fields": {
+        "category": 2,
+        "name": "Паста Карбонара",
+        "description": "Классическая римская паста с панчеттой, яйцами и пармезаном",
+        "price": "890.00",
+        "image": "menu_items/pasta-carbonara.jpg",
+        "is_available": true,
+        "is_popular": true,
+        "order": 1,
+        "ingredients": "Спагетти, панчетта, яйца, пармезан, черный перец",
+        "cooking_time": 15
+    }
+},
+{
+    "model": "core.menuitem",
+    "pk": 3,
+    "fields": {
+        "category": 2,
+        "name": "Тальятелле с трюфелями",
+        "description": "Свежая тальятелле с трюфельным соусом и пармезаном",
+        "price": "1200.00",
+        "image": "menu_items/tagliatelle-truffle.jpg",
+        "is_available": true,
+        "is_popular": false,
+        "order": 2,
+        "ingredients": "Тальятелле, трюфельное масло, грибы, пармезан, сливки",
+        "cooking_time": 12
+    }
+},
+{
+    "model": "core.menuitem",
+    "pk": 4,
+    "fields": {
+        "category": 3,
+        "name": "Пицца Маргарита",
+        "description": "Тонкое тесто, соус из Сан-Марцано, моцарелла и базилик",
+        "price": "750.00",
+        "image": "menu_items/pizza-margherita.jpg",
+        "is_available": true,
+        "is_popular": true,
+        "order": 1,
+        "ingredients": "Тесто для пиццы, томатный соус, моцарелла, свежий базилик, оливковое масло",
+        "cooking_time": 8
+    }
+},
+{
+    "model": "core.menuitem",
+    "pk": 5,
+    "fields": {
+        "category": 3,
+        "name": "Пицца Четыре Сыра",
+        "description": "Нежное сочетание моцареллы, горгонзолы, пармезана и рикотты",
+        "price": "850.00",
+        "image": "menu_items/pizza-quattro-formaggi.jpg",
+        "is_available": true,
+        "is_popular": false,
+        "order": 2,
+        "ingredients": "Тесто для пиццы, моцарелла, горгонзола, пармезан, рикотта",
+        "cooking_time": 10
+    }
+},
+{
+    "model": "core.menuitem",
+    "pk": 6,
+    "fields": {
+        "category": 4,
+        "name": "Оссобуко",
+        "description": "Томленая телячья голяшка с ризотто и гремолатой",
+        "price": "1650.00",
+        "image": "menu_items/osso-buco.jpg",
+        "is_available": true,
+        "is_popular": true,
+        "order": 1,
+        "ingredients": "Телячья голяшка, овощи, белое вино, бульон, ризотто, лимонная цедра",
+        "cooking_time": 120
+    }
+},
+{
+    "model": "core.menuitem",
+    "pk": 7,
+    "fields": {
+        "category": 5,
+        "name": "Тирамису",
+        "description": "Нежнейший десерт с кофе маскарпоне и саворди",
+        "price": "450.00",
+        "image": "menu_items/tiramisu.jpg",
+        "is_available": true,
+        "is_popular": true,
+        "order": 1,
+        "ingredients": "Маскарпоне, саворди, кофе эспрессо, какао, яйца, сахар",
+        "cooking_time": 0
+    }
+},
+{
+    "model": "core.menuitem",
+    "pk": 8,
+    "fields": {
+        "category": 5,
+        "name": "Панна Котта",
+        "description": "Нежный сливочный десерт с ягодным соусом",
+        "price": "380.00",
+        "image": "menu_items/panna-cotta.jpg",
+        "is_available": true,
+        "is_popular": false,
+        "order": 2,
+        "ingredients": "Сливки, сахар, ваниль, желатин, ягодный соус",
+        "cooking_time": 0
+    }
+}
+]

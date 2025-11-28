@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Выход из системы - La Bella Italia{% endblock %}
+
+{% block content %}
+<div class="container mt-5 pt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h2 class="card-title mb-4">Выход из системы</h2>
+                    <p class="mb-4">Вы уверены, что хотите выйти?</p>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger me-2">Выйти</button>
+                        <a href="{% url 'core:home' %}" class="btn btn-secondary">Отмена</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

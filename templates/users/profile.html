@@ -1,0 +1,356 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Личный кабинет - La Bella Italia{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/profile.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="profile-hero">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-center">
+                <li class="breadcrumb-item"><a href="{% url 'core:home' %}" class="text-light">Главная</a></li>
+                <li class="breadcrumb-item active text-light" aria-current="page">Личный кабинет</li>
+            </ol>
+        </nav>
+        <h1>Личный кабинет</h1>
+        <p class="lead">Управляйте своими бронированиями и настройками</p>
+    </div>
+</section>
+
+<!-- Profile Content -->
+<section class="py-5">
+    <div class="container">
+        <div class="profile-layout">
+            <!-- Sidebar -->
+            <div class="profile-sidebar">
+                <!-- User Info -->
+                <div class="user-avatar">
+                    {% if user.avatar %}
+                        <img src="{{ user.avatar.url }}" alt="Аватар" class="avatar-img">
+                    {% else %}
+                        <div class="avatar-placeholder">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                    {% endif %}
+                    <h3>{{ user.get_full_name|default:user.username }}</h3>
+                    <div class="user-email">{{ user.email }}</div>
+                    {% if user.is_verified %}
+                        <span class="badge badge-verified">✓ Подтвержден</span>
+                    {% endif %}
+                </div>
+
+                <!-- Stats -->
+                <div class="profile-stats">
+                    <div class="stat-box">
+                        <span class="stat-number" id="totalReservations">0</span>
+                        <span class="stat-label">Всего</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number" id="upcomingReservations">0</span>
+                        <span class="stat-label">Предстоящие</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number" id="completedReservations">0</span>
+                        <span class="stat-label">Завершено</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number" id="cancelledReservations">0</span>
+                        <span class="stat-label">Отменено</span>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <ul class="profile-nav">
+                    <li class="profile-nav-item">
+                        <a href="#" class="profile-nav-link active" data-section="reservations">
+                            <i class="bi bi-calendar-check"></i>
+                            Мои бронирования
+                        </a>
+                    </li>
+                    <li class="profile-nav-item">
+                        <a href="#" class="profile-nav-link" data-section="profile">
+                            <i class="bi bi-person"></i>
+                            Профиль
+                        </a>
+                    </li>
+                    <li class="profile-nav-item">
+                        <a href="#" class="profile-nav-link" data-section="calendar">
+                            <i class="bi bi-calendar"></i>
+                            Календарь
+                        </a>
+                    </li>
+                    <li class="profile-nav-item">
+                        <a href="#" class="profile-nav-link" data-section="notifications">
+                            <i class="bi bi-bell"></i>
+                            Уведомления
+                        </a>
+                    </li>
+                    <li class="profile-nav-item">
+                        <a href="#" class="profile-nav-link" data-section="settings">
+                            <i class="bi bi-gear"></i>
+                            Настройки
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Main Content -->
+            <div class="profile-content">
+                <!-- Reservations Section -->
+                <div class="content-section active" id="reservationsSection">
+                    <div class="section-header">
+                        <h2>Мои бронирования</h2>
+                        <a href="{% url 'reservations:reservation_create' %}" class="btn btn-gold">
+                            <i class="bi bi-plus-circle"></i> Новое бронирование
+                        </a>
+                    </div>
+
+                    {% if reservations %}
+                        <div class="reservations-list">
+                            {% for reservation in reservations %}
+                                <div class="reservation-card">
+                                    <div class="reservation-header">
+                                        <div>
+                                            <div class="reservation-id">Бронирование #{{ reservation.id }}</div>
+                                            <div class="reservation-date">
+                                                Создано: {{ reservation.created_at|date:"d.m.Y H:i" }}
+                                            </div>
+                                        </div>
+                                        <span class="reservation-status status-{{ reservation.status }}">
+                                            {{ reservation.get_status_display }}
+                                        </span>
+                                    </div>
+                                    
+                                    <div class="reservation-details">
+                                        <div class="detail-item">
+                                            <i class="bi bi-calendar"></i>
+                                            <span>{{ reservation.date|date:"d.m.Y" }}</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="bi bi-clock"></i>
+                                            <span>{{ reservation.time|time:"H:i" }}</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="bi bi-people"></i>
+                                            <span>{{ reservation.guests }} гостей</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="bi bi-geo"></i>
+                                            <span>Столик {{ reservation.table.number }}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    {% if reservation.special_requests %}
+                                        <div class="reservation-notes mb-3">
+                                            <strong>Особые пожелания:</strong>
+                                            <p class="mb-0">{{ reservation.special_requests }}</p>
+                                        </div>
+                                    {% endif %}
+                                    
+                                    <div class="reservation-actions">
+                                        {% if reservation.status in 'pending,confirmed' %}
+                                            <button class="btn btn-outline-danger btn-sm cancel-reservation"
+                                                    data-reservation-id="{{ reservation.id }}">
+                                                <i class="bi bi-x-circle"></i> Отменить
+                                            </button>
+                                        {% endif %}
+                                        <a href="{% url 'reservations:reservation_detail' reservation.id %}" 
+                                           class="btn btn-outline-secondary btn-sm">
+                                            <i class="bi bi-eye"></i> Подробнее
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="empty-state">
+                            <i class="bi bi-calendar-x"></i>
+                            <h4>Нет бронирований</h4>
+                            <p>У вас пока нет активных бронирований</p>
+                            <a href="{% url 'reservations:reservation_create' %}" class="btn btn-gold mt-3">
+                                Забронировать столик
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Profile Section -->
+                <div class="content-section" id="profileSection">
+                    <div class="section-header">
+                        <h2>Настройки профиля</h2>
+                    </div>
+                    
+                    <form method="post" action="{% url 'users:profile_update' %}" class="profile-form" id="profileForm">
+                        {% csrf_token %}
+                        
+                        <!-- Avatar Upload -->
+                        <div class="avatar-upload">
+                            {% if user.avatar %}
+                                <img src="{{ user.avatar.url }}" alt="Аватар" class="avatar-preview" id="avatarPreview">
+                            {% else %}
+                                <div class="avatar-preview avatar-placeholder">
+                                    <i class="bi bi-person-fill"></i>
+                                </div>
+                            {% endif %}
+                            <div class="upload-btn">
+                                <button type="button" class="btn btn-outline-primary btn-sm">
+                                    <i class="bi bi-camera"></i> Сменить аватар
+                                </button>
+                                <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+                            </div>
+                        </div>
+                        
+                        <!-- Personal Information -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Имя</label>
+                                <input type="text" class="form-control" name="first_name" 
+                                       value="{{ user.first_name }}" placeholder="Введите ваше имя">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Фамилия</label>
+                                <input type="text" class="form-control" name="last_name" 
+                                       value="{{ user.last_name }}" placeholder="Введите вашу фамилию">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" value="{{ user.email }}" readonly>
+                                <small class="text-muted">Для изменения email обратитесь в поддержку</small>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Телефон</label>
+                                <input type="tel" class="form-control" name="phone" 
+                                       value="{{ user.phone|default:'' }}" placeholder="+7 (999) 999-99-99">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Дата рождения</label>
+                            <input type="date" class="form-control" name="date_of_birth" 
+                                   value="{{ user.date_of_birth|date:'Y-m-d' }}">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-gold">
+                            <i class="bi bi-check-circle"></i> Сохранить изменения
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Calendar Section -->
+                <div class="content-section" id="calendarSection">
+                    <div class="section-header">
+                        <h2>Календарь бронирований</h2>
+                        <div class="calendar-nav">
+                            <button class="btn btn-outline-secondary btn-sm" id="prevMonth">
+                                <i class="bi bi-chevron-left"></i>
+                            </button>
+                            <span class="mx-3" id="currentMonth"></span>
+                            <button class="btn btn-outline-secondary btn-sm" id="nextMonth">
+                                <i class="bi bi-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="calendar-grid" id="calendar">
+                        <!-- Calendar will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Notifications Section -->
+                <div class="content-section" id="notificationsSection">
+                    <div class="section-header">
+                        <h2>Уведомления</h2>
+                        <button class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-check-all"></i> Отметить все как прочитанные
+                        </button>
+                    </div>
+                    
+                    <div id="notificationsList">
+                        <!-- Notifications will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Settings Section -->
+                <div class="content-section" id="settingsSection">
+                    <div class="section-header">
+                        <h2>Настройки</h2>
+                    </div>
+                    
+                    <div class="settings-list">
+                        <div class="setting-item mb-4">
+                            <h5>Уведомления по email</h5>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="emailNotifications" checked>
+                                <label class="form-check-label" for="emailNotifications">
+                                    Получать уведомления о бронированиях
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item mb-4">
+                            <h5>SMS уведомления</h5>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="smsNotifications">
+                                <label class="form-check-label" for="smsNotifications">
+                                    Получать SMS напоминания
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item mb-4">
+                            <h5>Язык</h5>
+                            <select class="form-select" style="max-width: 200px;">
+                                <option selected>Русский</option>
+                                <option>English</option>
+                            </select>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <h5>Безопасность</h5>
+                            <a href="{% url 'users:password_change' %}" class="btn btn-outline-primary btn-sm me-2">
+                                <i class="bi bi-key"></i> Сменить пароль
+                            </a>
+                            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+                                <i class="bi bi-trash"></i> Удалить аккаунт
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Delete Account Modal -->
+<div class="modal fade" id="deleteAccountModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Удаление аккаунта</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Вы уверены, что хотите удалить свой аккаунт? Это действие нельзя отменить.</p>
+                <p class="text-danger">Все ваши данные и бронирования будут безвозвратно удалены.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-danger">Удалить аккаунт</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/profile.js' %}"></script>
+{% endblock %}
