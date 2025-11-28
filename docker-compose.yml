@@ -23,7 +23,7 @@ services:
       - DB_PORT=5432
       - SECRET_KEY=${SECRET_KEY:-django-insecure-development-key}
       - DEBUG=False
-      - ALLOWED_HOSTS=localhost,127.0.0.1,web,nginx,0.0.0.0
+      - ALLOWED_HOSTS=localhost,217.197.116.157,127.0.0.1,web,nginx,0.0.0.0
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
     depends_on:
