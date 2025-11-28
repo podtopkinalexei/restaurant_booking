@@ -3,6 +3,7 @@
 services:
   web:
     build: .
+    user: root
     command: >
       sh -c "mkdir -p /app/media/menu_items /app/media/team_members /app/media/awards /app/media/reviews &&
              chown -R django:django /app/media &&
