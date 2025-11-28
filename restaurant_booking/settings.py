@@ -52,10 +52,18 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:8000',
+    'http://127.0.0.1:8000',
+    'http://217.197.116.157',
+    'http://localhost',
+    'http://127.0.0.1',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:8000',
+    'http://127.0.0.1:8000',
+    'http://217.197.116.157',
+    'http://localhost',
+    'http://127.0.0.1',
 ]
 
 CORS_ALLOW_ALL_ORIGINS = False
