@@ -14,11 +14,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-RUN python manage.py collectstatic --noinput
-
-RUN useradd -m -r django && chown -R django /app
-
-USER django
+RUN mkdir -p media && \
+    python manage.py collectstatic --noinput
 
 EXPOSE 8000
 
