@@ -6,10 +6,6 @@ on:
   pull_request:
     branches: [ main ]
 
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
-
 jobs:
   test:
     name: Run Tests
@@ -39,41 +35,36 @@ jobs:
   build-and-push:
     needs: test
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
+    if: github.ref == 'refs/heads/main'
 
     steps:
     - uses: actions/checkout@v4
 
-    - name: Log in to Container Registry
-      uses: docker/login-action@v2
-      with:
-        registry: ${{ env.REGISTRY }}
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
 
-    - name: Extract metadata
-      id: meta
-      uses: docker/metadata-action@v4
-      with:
-        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-        tags: |
-          type=ref,event=branch
-          type=ref,event=pr
-          type=semver,pattern={{version}}
-          type=semver,pattern={{major}}.{{minor}}
-          type=sha,prefix={{branch}}-
-
-    - name: Build and push Docker image
+    - name: Build Docker images
       uses: docker/build-push-action@v4
       with:
         context: .
-        push: true
-        tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
+        file: ./Dockerfile
+        tags: restaurant_booking:latest
+        load: true
         cache-from: type=gha
         cache-to: type=gha,mode=max
+
+    - name: Set up Docker Compose
+      run: |
+        sudo curl -L "https://github.com/docker/compose/releases/download/v2.20.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        sudo chmod +x /usr/local/bin/docker-compose
+
+    - name: Test Docker containers
+      run: |
+        docker-compose version
+        docker-compose up -d db redis
+        sleep 15
+        docker-compose ps
+        docker-compose down
 
   deploy:
     needs: build-and-push
@@ -81,12 +72,13 @@ jobs:
     if: github.ref == 'refs/heads/main'
 
     steps:
-    - name: Deploy to production
+    - name: Deploy to server
       uses: appleboy/ssh-action@v0.1.7
       with:
-        host: ${{ secrets.PRODUCTION_HOST }}
-        username: ${{ secrets.PRODUCTION_USERNAME }}
-        key: ${{ secrets.PRODUCTION_SSH_KEY }}
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USER }}
+        password: ${{ secrets.SERVER_PASSWORD }}
+        port: 22
         script: |
           cd /opt/restaurant-booking         
           
@@ -113,7 +105,7 @@ jobs:
       run: |        
         sleep 10        
        
-        response=$(curl -s -o /dev/null -w "%{http_code}" http://${{ secrets.PRODUCTION_HOST }}/ || true)
+        response=$(curl -s -o /dev/null -w "%{http_code}" http://${{ secrets.SERVER_HOST }}/ || true)
         
         if [ "$response" -eq 200 ] || [ "$response" -eq 301 ] || [ "$response" -eq 302 ]; then
           echo "Application is healthy (HTTP $response)"
